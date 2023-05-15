@@ -60,6 +60,27 @@ app.post("/auth/register", async(req, res) => {
     
  });
 
+ // Lgin user
+app.post("/auth/login", async (req, res) => {
+    const {email, password} = req.body;
+
+    if(!email){
+        res.status(422).json({msg: "Email obrigatório!"})
+    }
+
+    if(!password){
+        res.status(422).json({msg: "Senha obrigatório!"})
+    }
+
+    const user = await User.findOne({email: email});
+
+    if(!user){
+        return res.status(422).json({msg: "Usúario não encontrado!"})
+    }
+
+    res.status(200).json({msg: "Login feito"})
+})
+
 //Credenciais
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASS;
